@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halal Portal - Bangsamoro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #2C5530;
+            --secondary-color: #F4C316;
+            --accent-color: #D62828;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --bg-light: #F8F9FA;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #3d7241 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero-section p {
+            font-size: 1.25rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .module-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .module-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .module-description {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .btn-module {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-module:hover {
+            background-color: #3d7241;
+            color: white;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+        }
+
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 40px 0;
+            margin-top: 80px;
+        }
+
+        .footer a {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container">
+            <h1>Halal Portal Bangsamoro</h1>
+            <p>Comprehensive Management System for Halal Certification and Development</p>
+            <a href="dashboard.html" class="btn btn-lg" style="background-color: var(--secondary-color); color: var(--primary-color); font-weight: 600; padding: 12px 30px;">
+                Access Dashboard <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Modules Section -->
+    <div class="container py-5">
+        <h2 class="section-title">System Modules</h2>
+        
+        <div class="row g-4">
+            <!-- Dashboard -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="bi bi-speedometer2"></i>
+                    </div>
+                    <h3 class="module-title">Dashboard</h3>
+                    <p class="module-description">Central hub for monitoring all activities, metrics, and system performance.</p>
+                    <a href="dashboard.html" class="btn-module">Open Dashboard</a>
+                </div>
+            </div>
+
+            <!-- Program Overview -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="bi bi-clipboard-data"></i>
+                    </div>
+                    <h3 class="module-title">Program Overview</h3>
+                    <p class="module-description">Comprehensive view of all halal development programs and initiatives.</p>
+                    <a href="program-overview.html" class="btn-module">View Programs</a>
+                </div>
+            </div>
+
+            <!-- Activity Centers -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
+                    <h3 class="module-title">Activity Centers</h3>
+                    <p class="module-description">Manage halal certification centers and processing facilities.</p>
+                    <a href="activity-centers.html" class="btn-module">Manage Centers</a>
+                </div>
+            </div>
+
+            <!-- Certification -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="bi bi-award"></i>
+                    </div>
+                    <h3 class="module-title">Certification</h3>
+                    <p class="module-description">Track and manage halal certification processes and applications.</p>
+                    <a href="activity-certification.html" class="btn-module">Certifications</a>
+                </div>
+            </div>
+
+            <!-- MSME Database -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="bi bi-shop"></i>
+                    </div>
+                    <h3 class="module-title">MSME Database</h3>
+                    <p class="module-description">Comprehensive database of registered MSMEs in the halal industry.</p>
+                    <a href="msme-database.html" class="btn-module">MSME Directory</a>
+                </div>
+            </div>
+
+            <!-- AI Document Generation -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="bi bi-robot"></i>
+                    </div>
+                    <h3 class="module-title">AI Documents</h3>
+                    <p class="module-description">Generate reports and documents using AI-powered tools.</p>
+                    <a href="ai-document-generation.html" class="btn-module">Generate Docs</a>
+                </div>
+            </div>
+
+            <!-- Champions -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="bi bi-trophy"></i>
+                    </div>
+                    <h3 class="module-title">Champions</h3>
+                    <p class="module-description">Track and recognize halal industry champions and success stories.</p>
+                    <a href="activity-champions.html" class="btn-module">View Champions</a>
+                </div>
+            </div>
+
+            <!-- Marketing -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="bi bi-megaphone"></i>
+                    </div>
+                    <h3 class="module-title">Marketing</h3>
+                    <p class="module-description">Marketing campaigns and promotional activities management.</p>
+                    <a href="activity-marketing.html" class="btn-module">Marketing Hub</a>
+                </div>
+            </div>
+
+            <!-- Performance Dashboard -->
+            <div class="col-lg-4 col-md-6">
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="bi bi-graph-up"></i>
+                    </div>
+                    <h3 class="module-title">Performance</h3>
+                    <p class="module-description">Monitor KPIs and performance metrics across all programs.</p>
+                    <a href="performance-dashboard.html" class="btn-module">View Metrics</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Modules -->
+        <div class="row g-4 mt-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="bi bi-calendar3"></i>
+                    </div>
+                    <h3 class="module-title">Calendar</h3>
+                    <p class="module-description">Schedule and track events.</p>
+                    <a href="calendar.html" class="btn-module">Open</a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="bi bi-list-task"></i>
+                    </div>
+                    <h3 class="module-title">Tasks</h3>
+                    <p class="module-description">Manage tasks and workflows.</p>
+                    <a href="tasks.html" class="btn-module">Open</a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <h3 class="module-title">Staff</h3>
+                    <p class="module-description">Staff management system.</p>
+                    <a href="staff.html" class="btn-module">Open</a>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="bi bi-folder"></i>
+                    </div>
+                    <h3 class="module-title">Projects</h3>
+                    <p class="module-description">Project tracking system.</p>
+                    <a href="projects.html" class="btn-module">Open</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="mb-2">© 2024 Halal Portal Bangsamoro. All rights reserved.</p>
+            <p class="mb-0">
+                <a href="https://bangsamoro.gov.ph" target="_blank">Bangsamoro Government</a> | 
+                <a href="#">Privacy Policy</a> | 
+                <a href="#">Terms of Service</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

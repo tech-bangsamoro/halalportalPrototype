@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HalalPortal - Halal Database</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-active { 
+            border-bottom-width: 2px;
+            border-color: rgb(6 182 212);
+            color: rgb(6 182 212);
+        }
+    </style>
+</head>
+<body class="bg-gray-50" x-data="{ showAIInsights: false }">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo on the left -->
+                <div class="flex-shrink-0 flex items-center">
+                    <svg class="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="ml-2 text-xl font-semibold text-gray-900">HalalPortal</span>
+                </div>
+                
+                <!-- Navigation items and icons on the right -->
+                <div class="flex items-center">
+                    <div class="hidden sm:flex sm:space-x-8 sm:mr-8">
+                        <a href="dashboard.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Home
+                        </a>
+                        
+                        <!-- Core Activities Dropdown -->
+                        <div class="relative group">
+                            <button class="border-emerald-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                Core Activities
+                                <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="absolute left-0 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                                <div class="py-1">
+                                    <a href="activity-certification.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Halal Certification</a>
+                                    <a href="activity-marketing.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Marketing & Capacity Building</a>
+                                    <a href="activity-centers.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">One-Stop-Shop Centers</a>
+                                    <a href="activity-trainers.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Trainers Training</a>
+                                    <a href="activity-database.html" class="block px-4 py-2 text-sm text-gray-700 bg-gray-50">Halal Database</a>
+                                    <a href="activity-champions.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Champions Recognition</a>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="msme-database.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            MSME Database
+                        </a>
+                        
+                        <!-- HPMO Team Dropdown -->
+                        <div class="relative group">
+                            <button class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                HPMO Team
+                                <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                                <div class="py-1">
+                                    <a href="staff.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Management</a>
+                                    <a href="performance-dashboard.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Performance Management</a>
+                                    <a href="tasks.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Task Management</a>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="calendar.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Calendar
+                        </a>
+                    </div>
+                    
+                    <!-- Icons -->
+                    <div class="flex items-center space-x-4">
+                    <!-- AI Insights Button -->
+                    <button @click="showAIInsights = !showAIInsights" class="relative p-2 text-gray-400 hover:text-gray-500 animate-pulse-slow">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <span class="absolute -top-1 -right-1 h-3 w-3 bg-emerald-500 rounded-full"></span>
+                    </button>
+                    
+                    <!-- Notifications -->
+                    <div class="relative">
+                        <button class="p-2 text-gray-400 hover:text-gray-500">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                            <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 transform translate-x-1/2 -translate-y-1/2"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- Account Dropdown -->
+                    <div class="relative" x-data="{ showAccount: false }">
+                        <button @click="showAccount = !showAccount" class="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-gray-100">
+                            <img class="h-8 w-8 rounded-full" src="https://ui-avatars.com/api/?name=Admin&background=10b981&color=fff" alt="Profile">
+                            <svg class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        
+                        <div x-show="showAccount" @click.away="showAccount = false"
+                             x-transition
+                             class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                            <div class="py-1">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                                <div class="border-t border-gray-100"></div>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- AI Insights Panel -->
+    <div x-show="showAIInsights" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 transform translate-y-4"
+         x-transition:enter-end="opacity-100 transform translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 transform translate-y-0"
+         x-transition:leave-end="opacity-0 transform translate-y-4"
+         class="fixed bottom-4 right-4 w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+        <div class="p-4 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-gray-900">AI Insights</h3>
+                <button @click="showAIInsights = false" class="text-gray-400 hover:text-gray-500">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="p-4 max-h-96 overflow-y-auto">
+            <div class="space-y-3">
+                <div class="p-3 bg-red-50 rounded-lg">
+                    <p class="text-sm font-medium text-red-900">🚨 Critical Alert</p>
+                    <p class="text-xs text-red-700 mt-1">Current pace will achieve only 304 MSMEs (80% of target). Recommend accelerating certification in Regions I, III, and NCR.</p>
+                    <button class="text-xs text-red-600 hover:text-red-700 font-medium mt-2">View Solution →</button>
+                </div>
+                <div class="p-3 bg-yellow-50 rounded-lg">
+                    <p class="text-sm font-medium text-yellow-900">⚡ Performance Insight</p>
+                    <p class="text-xs text-yellow-700 mt-1">Team productivity peaks Tuesday-Thursday. Schedule critical reviews during these days.</p>
+                </div>
+                <div class="p-3 bg-emerald-50 rounded-lg">
+                    <p class="text-sm font-medium text-emerald-900">✨ Opportunity</p>
+                    <p class="text-xs text-emerald-700 mt-1">Region III partnership model showing 40% efficiency gain. Replicate across other regions.</p>
+                    <button class="text-xs text-emerald-600 hover:text-emerald-700 font-medium mt-2">Apply Model →</button>
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-t">
+                <button class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700">
+                    <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                    Generate Full Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div x-data="{ activeTab: 'overview' }" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Activity 5: Halal Database System</h1>
+                    <p class="mt-2 text-gray-600">Centralized digital repository for all Halal certification data</p>
+                </div>
+                <div class="flex space-x-3">
+                    <button class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        <svg class="h-4 w-4 mr-2 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        Generate Report with AI
+                    </button>
+                    <button class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-cyan-600 hover:bg-cyan-700">
+                        <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        New Database Entry
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="border-b border-gray-200 mb-8">
+            <nav class="-mb-px flex space-x-8">
+                <button @click="activeTab = 'overview'" 
+                        :class="activeTab === 'overview' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Overview
+                </button>
+                <button @click="activeTab = 'projects'" 
+                        :class="activeTab === 'projects' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Projects (3)
+                </button>
+                <button @click="activeTab = 'tasks'" 
+                        :class="activeTab === 'tasks' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Tasks (42)
+                </button>
+                <button @click="activeTab = 'team'" 
+                        :class="activeTab === 'team' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Team (6)
+                </button>
+                <button @click="activeTab = 'calendar'" 
+                        :class="activeTab === 'calendar' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Calendar
+                </button>
+                <button @click="activeTab = 'budget'" 
+                        :class="activeTab === 'budget' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Budget (₱2M)
+                </button>
+            </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Content Area -->
+            <div class="lg:col-span-2">
+                <!-- Overview Tab -->
+                <div x-show="activeTab === 'overview'" class="space-y-6">
+                    <!-- KPI Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">System Uptime</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1">99.8%</p>
+                                </div>
+                                <div class="p-3 bg-cyan-100 rounded-lg">
+                                    <svg class="h-6 w-6 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center text-sm">
+                                    <span class="text-green-600 font-medium">1.2hrs</span>
+                                    <span class="text-gray-500 ml-2">downtime this month</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Total Records</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1">8,453</p>
+                                </div>
+                                <div class="p-3 bg-blue-100 rounded-lg">
+                                    <svg class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center text-sm">
+                                    <span class="text-blue-600 font-medium">+234</span>
+                                    <span class="text-gray-500 ml-2">this week</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Active Users</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1">1,267</p>
+                                </div>
+                                <div class="p-3 bg-green-100 rounded-lg">
+                                    <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center text-sm">
+                                    <span class="text-green-600 font-medium">89%</span>
+                                    <span class="text-gray-500 ml-2">daily active</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Storage Used</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1">324GB</p>
+                                </div>
+                                <div class="p-3 bg-purple-100 rounded-lg">
+                                    <svg class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center text-sm">
+                                    <span class="text-purple-600 font-medium">65%</span>
+                                    <span class="text-gray-500 ml-2">of 500GB capacity</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Development Progress -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">System Development Progress</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <div>
+                                        <span class="text-sm font-medium text-gray-900">Phase 1: Core Infrastructure</span>
+                                        <span class="text-xs text-gray-500 ml-2">Database, APIs, Authentication</span>
+                                    </div>
+                                    <span class="text-sm text-emerald-600 font-medium">Completed</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-emerald-600 h-2 rounded-full" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <div>
+                                        <span class="text-sm font-medium text-gray-900">Phase 2: Certification Module</span>
+                                        <span class="text-xs text-gray-500 ml-2">Application, Review, Tracking</span>
+                                    </div>
+                                    <span class="text-sm text-emerald-600 font-medium">Completed</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-emerald-600 h-2 rounded-full" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <div>
+                                        <span class="text-sm font-medium text-gray-900">Phase 3: Business Portal</span>
+                                        <span class="text-xs text-gray-500 ml-2">Enterprise Dashboard, Document Management</span>
+                                    </div>
+                                    <span class="text-sm text-blue-600 font-medium">In Progress</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 75%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <div>
+                                        <span class="text-sm font-medium text-gray-900">Phase 4: Analytics & Reporting</span>
+                                        <span class="text-xs text-gray-500 ml-2">BI Dashboard, Custom Reports</span>
+                                    </div>
+                                    <span class="text-sm text-yellow-600 font-medium">Testing</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-yellow-600 h-2 rounded-full" style="width: 40%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <div>
+                                        <span class="text-sm font-medium text-gray-900">Phase 5: Mobile Application</span>
+                                        <span class="text-xs text-gray-500 ml-2">iOS & Android Apps</span>
+                                    </div>
+                                    <span class="text-sm text-gray-400 font-medium">Planned</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-gray-400 h-2 rounded-full" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Distribution Chart -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Data Distribution by Category</h2>
+                        <div style="position: relative; height: 300px;">
+                            <canvas id="dataDistribution"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects Tab -->
+                <div x-show="activeTab === 'projects'" class="space-y-4">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Halal CARES System Development</h3>
+                                <p class="text-sm text-gray-600 mt-1">Building database management system</p>
+                            </div>
+                            <button class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                <svg class="h-4 w-4 mr-1 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                AI Insights
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-500">Progress:</span>
+                                <span class="font-medium ml-2">85%</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Budget:</span>
+                                <span class="font-medium ml-2">₱1,200,000</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Team Size:</span>
+                                <span class="font-medium ml-2">4 developers</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Regional Data Migration</h3>
+                                <p class="text-sm text-gray-600 mt-1">Migrating data from 19 regions</p>
+                            </div>
+                            <button class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                <svg class="h-4 w-4 mr-1 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                AI Insights
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-500">Progress:</span>
+                                <span class="font-medium ml-2">60%</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Budget:</span>
+                                <span class="font-medium ml-2">₱500,000</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Team Size:</span>
+                                <span class="font-medium ml-2">3 developers</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">User Access & Security Implementation</h3>
+                                <p class="text-sm text-gray-600 mt-1">380 user protocols</p>
+                            </div>
+                            <button class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                <svg class="h-4 w-4 mr-1 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                AI Insights
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-500">Progress:</span>
+                                <span class="font-medium ml-2">40%</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Budget:</span>
+                                <span class="font-medium ml-2">₱300,000</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Team Size:</span>
+                                <span class="font-medium ml-2">2 developers</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">System Testing & Deployment</h3>
+                                <p class="text-sm text-gray-600 mt-1">Pilot testing with MSMEs</p>
+                            </div>
+                            <button class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                <svg class="h-4 w-4 mr-1 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                AI Insights
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-500">Progress:</span>
+                                <span class="font-medium ml-2">20%</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Budget:</span>
+                                <span class="font-medium ml-2">₱200,000</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Team Size:</span>
+                                <span class="font-medium ml-2">2 developers</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tasks Tab -->
+                <div x-show="activeTab === 'tasks'" class="bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-gray-900">Development Tasks</h3>
+                            <div class="flex space-x-3">
+                                <button class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                    <svg class="h-4 w-4 mr-1.5 text-cyan-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                    </svg>
+                                    AI Task Suggestions
+                                </button>
+                                <button class="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md text-sm font-medium text-white bg-cyan-600 hover:bg-cyan-700">
+                                    <svg class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                    </svg>
+                                    New Task
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Task</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assignee</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Priority</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Configure database tables for 19 regions
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        John Developer
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            High
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            In Progress
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Migrate legacy MSME data from Excel files
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Maria DBA
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                            High
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                                            Completed
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Implement user access control for 380 users
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Sarah Tech Writer
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            Medium
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            Review
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Team Tab -->
+                <div x-show="activeTab === 'team'" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center space-x-4">
+                            <img class="h-12 w-12 rounded-full" src="https://ui-avatars.com/api/?name=John+Developer&background=06b6d4&color=fff" alt="">
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-gray-900">John Developer</h4>
+                                <p class="text-sm text-gray-500">Senior Backend Developer</p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Active
+                            </span>
+                        </div>
+                        <div class="mt-4 flex items-center text-sm text-gray-500">
+                            <svg class="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            8 active tasks
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center space-x-4">
+                            <img class="h-12 w-12 rounded-full" src="https://ui-avatars.com/api/?name=Maria+DBA&background=06b6d4&color=fff" alt="">
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-gray-900">Maria DBA</h4>
+                                <p class="text-sm text-gray-500">Database Administrator</p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Active
+                            </span>
+                        </div>
+                        <div class="mt-4 flex items-center text-sm text-gray-500">
+                            <svg class="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            5 active tasks
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center space-x-4">
+                            <img class="h-12 w-12 rounded-full" src="https://ui-avatars.com/api/?name=Robert+Frontend&background=06b6d4&color=fff" alt="">
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-gray-900">Robert Frontend</h4>
+                                <p class="text-sm text-gray-500">Frontend Developer</p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Active
+                            </span>
+                        </div>
+                        <div class="mt-4 flex items-center text-sm text-gray-500">
+                            <svg class="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            6 active tasks
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center space-x-4">
+                            <img class="h-12 w-12 rounded-full" src="https://ui-avatars.com/api/?name=Sarah+Writer&background=06b6d4&color=fff" alt="">
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-gray-900">Sarah Tech Writer</h4>
+                                <p class="text-sm text-gray-500">Technical Writer</p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Active
+                            </span>
+                        </div>
+                        <div class="mt-4 flex items-center text-sm text-gray-500">
+                            <svg class="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            3 active tasks
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar Tab -->
+                <div x-show="activeTab === 'calendar'" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Development Milestones</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-2 h-2 bg-cyan-600 rounded-full mt-2"></div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Business Portal Beta Launch</p>
+                                <p class="text-sm text-gray-500">December 15, 2025 - Testing with select enterprises</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-2 h-2 bg-cyan-600 rounded-full mt-2"></div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Analytics Module Deployment</p>
+                                <p class="text-sm text-gray-500">December 20, 2025 - Full BI dashboard release</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-2 h-2 bg-gray-400 rounded-full mt-2"></div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-900">Mobile App Development Kickoff</p>
+                                <p class="text-sm text-gray-500">January 5, 2026 - Start of mobile development phase</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Budget Tab -->
+                <div x-show="activeTab === 'budget'" class="space-y-6">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Budget Allocation</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Infrastructure & Hosting</span>
+                                    <span class="text-sm text-gray-600">₱400,000</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-cyan-600 h-2 rounded-full" style="width: 20%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Development Team</span>
+                                    <span class="text-sm text-gray-600">₱1,200,000</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-cyan-600 h-2 rounded-full" style="width: 60%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Security & Compliance</span>
+                                    <span class="text-sm text-gray-600">₱200,000</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-cyan-600 h-2 rounded-full" style="width: 10%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Training & Documentation</span>
+                                    <span class="text-sm text-gray-600">₱200,000</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-cyan-600 h-2 rounded-full" style="width: 10%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6 pt-6 border-t border-gray-200">
+                            <div class="flex justify-between items-center">
+                                <span class="text-base font-medium text-gray-900">Total Budget Utilized</span>
+                                <div class="text-right">
+                                    <p class="text-2xl font-bold text-cyan-600">₱1,400,000</p>
+                                    <p class="text-sm text-gray-500">70% of ₱2,000,000</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                <!-- AI Database Assistant -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">AI Database Assistant</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-cyan-500 pl-4">
+                            <p class="text-sm font-medium text-gray-900">Performance Optimization Alert</p>
+                            <p class="text-sm text-gray-600 mt-1">Query response times increased by 15% in the last hour. Consider index optimization on certification_status table.</p>
+                            <button class="mt-2 text-cyan-600 text-sm font-medium hover:text-cyan-700">
+                                Generate Optimization Plan →
+                            </button>
+                        </div>
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <p class="text-sm font-medium text-gray-900">Storage Forecast</p>
+                            <p class="text-sm text-gray-600 mt-1">Based on current growth rate, storage will reach 80% capacity in 45 days.</p>
+                            <button class="mt-2 text-blue-600 text-sm font-medium hover:text-blue-700">
+                                View Capacity Plan →
+                            </button>
+                        </div>
+                        <button class="w-full mt-4 inline-flex items-center justify-center px-4 py-2 border border-cyan-600 rounded-md shadow-sm text-sm font-medium text-cyan-600 bg-white hover:bg-cyan-50">
+                            <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                            Generate System Health Report
+                        </button>
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">System Health</h3>
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                            Operational
+                        </span>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm text-gray-600">API Response</span>
+                                <span class="text-sm font-medium">45ms</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm text-gray-600">Database</span>
+                                <span class="text-sm font-medium">98%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 98%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm text-gray-600">CPU Usage</span>
+                                <span class="text-sm font-medium">32%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 32%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm text-gray-600">Memory</span>
+                                <span class="text-sm font-medium">12GB/32GB</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 37%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Script -->
+    <script>
+        // Data Distribution Chart
+        const ctx = document.getElementById('dataDistribution')?.getContext('2d');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Certified Enterprises', 'Applications', 'Training Records', 'Documents', 'User Profiles', 'Others'],
+                    datasets: [{
+                        data: [2345, 1876, 1234, 1567, 987, 444],
+                        backgroundColor: [
+                            '#06b6d4',
+                            '#3b82f6',
+                            '#10b981',
+                            '#f59e0b',
+                            '#8b5cf6',
+                            '#ec4899'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 15,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    const value = context.parsed;
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((value / total) * 100).toFixed(1);
+                                    label += value + ' records (' + percentage + '%)';
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

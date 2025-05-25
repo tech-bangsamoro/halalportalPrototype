@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HalalPortal - Champions Recognition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-active { 
+            border-bottom-width: 2px;
+            border-color: rgb(245 158 11);
+            color: rgb(245 158 11);
+        }
+    </style>
+</head>
+<body class="bg-gray-50" x-data="{ showAIInsights: false }">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo on the left -->
+                <div class="flex-shrink-0 flex items-center">
+                    <svg class="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="ml-2 text-xl font-semibold text-gray-900">HalalPortal</span>
+                </div>
+                
+                <!-- Navigation items and icons on the right -->
+                <div class="flex items-center">
+                    <div class="hidden sm:flex sm:space-x-8 sm:mr-8">
+                        <a href="dashboard.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Home
+                        </a>
+                        
+                        <!-- Core Activities Dropdown -->
+                        <div class="relative group">
+                            <button class="border-emerald-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                Core Activities
+                                <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="absolute left-0 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                                <div class="py-1">
+                                    <a href="activity-certification.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Halal Certification</a>
+                                    <a href="activity-marketing.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Marketing & Capacity Building</a>
+                                    <a href="activity-centers.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">One-Stop-Shop Centers</a>
+                                    <a href="activity-trainers.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Trainers Training</a>
+                                    <a href="activity-database.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Halal Database</a>
+                                    <a href="activity-champions.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Champions Recognition</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="msme-database.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            MSME Database
+                        </a>
+                        
+                        <!-- HPMO Team Dropdown -->
+                        <div class="relative group">
+                            <button class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                HPMO Team
+                                <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                                <div class="py-1">
+                                    <a href="staff.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Management</a>
+                                    <a href="performance-dashboard.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Performance Management</a>
+                                    <a href="tasks.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Task Management</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="calendar.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Calendar
+                        </a>
+                    </div>
+                    
+                    <!-- Icons -->
+                    <div class="flex items-center space-x-4">
+                    <!-- AI Insights Button -->
+                    <button @click="showAIInsights = !showAIInsights" class="relative p-2 text-gray-400 hover:text-gray-500 animate-pulse-slow">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <span class="absolute -top-1 -right-1 h-3 w-3 bg-emerald-500 rounded-full"></span>
+                    </button>
+                    
+                    <!-- Notifications -->
+                    <div class="relative">
+                        <button class="p-2 text-gray-400 hover:text-gray-500">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                            <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 transform translate-x-1/2 -translate-y-1/2"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- Account Dropdown -->
+                    <div class="relative" x-data="{ showAccount: false }">
+                        <button @click="showAccount = !showAccount" class="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-gray-100">
+                            <img class="h-8 w-8 rounded-full" src="https://ui-avatars.com/api/?name=Admin&background=10b981&color=fff" alt="Profile">
+                            <svg class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        
+                        <div x-show="showAccount" @click.away="showAccount = false"
+                             x-transition
+                             class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                            <div class="py-1">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                                <div class="border-t border-gray-100"></div>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- AI Insights Panel -->
+    <div x-show="showAIInsights" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 transform translate-y-4"
+         x-transition:enter-end="opacity-100 transform translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 transform translate-y-0"
+         x-transition:leave-end="opacity-0 transform translate-y-4"
+         class="fixed bottom-4 right-4 w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+        <div class="p-4 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-gray-900">AI Insights</h3>
+                <button @click="showAIInsights = false" class="text-gray-400 hover:text-gray-500">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="p-4 max-h-96 overflow-y-auto">
+            <div class="space-y-3">
+                <div class="p-3 bg-red-50 rounded-lg">
+                    <p class="text-sm font-medium text-red-900">🚨 Critical Alert</p>
+                    <p class="text-xs text-red-700 mt-1">Current pace will achieve only 304 MSMEs (80% of target). Recommend accelerating certification in Regions I, III, and NCR.</p>
+                    <button class="text-xs text-red-600 hover:text-red-700 font-medium mt-2">View Solution →</button>
+                </div>
+                <div class="p-3 bg-yellow-50 rounded-lg">
+                    <p class="text-sm font-medium text-yellow-900">⚡ Performance Insight</p>
+                    <p class="text-xs text-yellow-700 mt-1">Team productivity peaks Tuesday-Thursday. Schedule critical reviews during these days.</p>
+                </div>
+                <div class="p-3 bg-emerald-50 rounded-lg">
+                    <p class="text-sm font-medium text-emerald-900">✨ Opportunity</p>
+                    <p class="text-xs text-emerald-700 mt-1">Region III partnership model showing 40% efficiency gain. Replicate across other regions.</p>
+                    <button class="text-xs text-emerald-600 hover:text-emerald-700 font-medium mt-2">Apply Model →</button>
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-t">
+                <button class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700">
+                    <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                    Generate Full Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div x-data="{ activeTab: 'overview' }" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Activity 6: Halal Champions Recognition</h1>
+                    <p class="mt-2 text-gray-600">Celebrating excellence in Halal industry leadership</p>
+                </div>
+                <div class="flex space-x-3">
+                    <button class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        <svg class="h-4 w-4 mr-2 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        Generate Report with AI
+                    </button>
+                    <button class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700">
+                        <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        Nominate Champion
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="border-b border-gray-200 mb-8">
+            <nav class="-mb-px flex space-x-8">
+                <button @click="activeTab = 'overview'" 
+                        :class="activeTab === 'overview' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Overview
+                </button>
+                <button @click="activeTab = 'projects'" 
+                        :class="activeTab === 'projects' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Projects (4)
+                </button>
+                <button @click="activeTab = 'tasks'" 
+                        :class="activeTab === 'tasks' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Tasks (18)
+                </button>
+                <button @click="activeTab = 'team'" 
+                        :class="activeTab === 'team' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Team (5)
+                </button>
+                <button @click="activeTab = 'calendar'" 
+                        :class="activeTab === 'calendar' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Calendar
+                </button>
+                <button @click="activeTab = 'budget'" 
+                        :class="activeTab === 'budget' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                        class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                    Budget (₱1.73M)
+                </button>
+            </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Content Area -->
+            <div class="lg:col-span-2">
+                <!-- Overview Tab -->
+                <div x-show="activeTab === 'overview'" class="space-y-6">
+                    <!-- KPI Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Total Nominees</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1">234</p>
+                                </div>
+                                <div class="p-3 bg-amber-100 rounded-lg">
+                                    <svg class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center text-sm">
+                                    <span class="text-green-600 font-medium">123%</span>
+                                    <span class="text-gray-500 ml-2">of 190 target</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Awardees Selected</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1">45</p>
+                                </div>
+                                <div class="p-3 bg-yellow-100 rounded-lg">
+                                    <svg class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center text-sm">
+                                    <span class="text-yellow-600 font-medium">19.2%</span>
+                                    <span class="text-gray-500 ml-2">selection rate</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Award Categories</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1">6</p>
+                                </div>
+                                <div class="p-3 bg-purple-100 rounded-lg">
+                                    <svg class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center text-sm">
+                                    <span class="text-purple-600 font-medium">All active</span>
+                                    <span class="text-gray-500 ml-2">for 2025</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Prize Pool</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1">₱1.73M</p>
+                                </div>
+                                <div class="p-3 bg-green-100 rounded-lg">
+                                    <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center text-sm">
+                                    <span class="text-green-600 font-medium">₱865K</span>
+                                    <span class="text-gray-500 ml-2">allocated (50%)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Award Categories -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Award Categories</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="border rounded-lg p-4 bg-gradient-to-br from-amber-50 to-orange-50">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-medium text-gray-900">Excellence in Production</h3>
+                                    <svg class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                                    </svg>
+                                </div>
+                                <div class="space-y-1 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Nominees</span>
+                                        <span class="font-medium">52</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Prize Pool</span>
+                                        <span class="font-medium">₱300K</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border rounded-lg p-4 bg-gradient-to-br from-blue-50 to-indigo-50">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-medium text-gray-900">Innovation in Technology</h3>
+                                    <svg class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <div class="space-y-1 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Nominees</span>
+                                        <span class="font-medium">38</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Prize Pool</span>
+                                        <span class="font-medium">₱250K</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border rounded-lg p-4 bg-gradient-to-br from-green-50 to-emerald-50">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-medium text-gray-900">Export Market Leader</h3>
+                                    <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div class="space-y-1 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Nominees</span>
+                                        <span class="font-medium">42</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Prize Pool</span>
+                                        <span class="font-medium">₱350K</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border rounded-lg p-4 bg-gradient-to-br from-purple-50 to-pink-50">
+                                <div class="flex items-center justify-between mb-2">
+                                    <h3 class="font-medium text-gray-900">Community Impact</h3>
+                                    <svg class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                    </svg>
+                                </div>
+                                <div class="space-y-1 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Nominees</span>
+                                        <span class="font-medium">35</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Prize Pool</span>
+                                        <span class="font-medium">₱200K</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Regional Distribution Chart -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Nominees by Region</h2>
+                        <div style="position: relative; height: 300px;">
+                            <canvas id="regionalNominees"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects Tab -->
+                <div x-show="activeTab === 'projects'" class="space-y-4">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Champions Selection Process</h3>
+                                <p class="text-sm text-gray-600 mt-1">Managing 190 nominees</p>
+                            </div>
+                            <button class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                <svg class="h-4 w-4 mr-1 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                AI Insights
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-500">Progress:</span>
+                                <span class="font-medium ml-2">65%</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Budget:</span>
+                                <span class="font-medium ml-2">₱800,000</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Timeline:</span>
+                                <span class="font-medium ml-2">Aug-Dec 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Recognition Event Planning</h3>
+                                <p class="text-sm text-gray-600 mt-1">Organizing awarding ceremony</p>
+                            </div>
+                            <button class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                <svg class="h-4 w-4 mr-1 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                AI Insights
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-500">Progress:</span>
+                                <span class="font-medium ml-2">30%</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Budget:</span>
+                                <span class="font-medium ml-2">₱500,000</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Date:</span>
+                                <span class="font-medium ml-2">Dec 15, 2025</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Success Story Documentation</h3>
+                                <p class="text-sm text-gray-600 mt-1">Documenting champion achievements</p>
+                            </div>
+                            <button class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                <svg class="h-4 w-4 mr-1 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                AI Insights
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-500">Progress:</span>
+                                <span class="font-medium ml-2">45%</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Budget:</span>
+                                <span class="font-medium ml-2">₱250,000</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Status:</span>
+                                <span class="font-medium ml-2">Ongoing</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900">Post-Event Publicity Campaign</h3>
+                                <p class="text-sm text-gray-600 mt-1">Media and promotional activities</p>
+                            </div>
+                            <button class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                <svg class="h-4 w-4 mr-1 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                AI Insights
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <span class="text-gray-500">Progress:</span>
+                                <span class="font-medium ml-2">15%</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Budget:</span>
+                                <span class="font-medium ml-2">₱180,000</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-500">Timeline:</span>
+                                <span class="font-medium ml-2">Dec-Jan 2026</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tasks Tab -->
+                <div x-show="activeTab === 'tasks'" class="bg-white rounded-lg shadow-sm border border-gray-200">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-gray-900">Recognition Tasks</h3>
+                            <div class="flex space-x-3">
+                                <button class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                    <svg class="h-4 w-4 mr-1.5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                                    </svg>
+                                    AI Task Suggestions
+                                </button>
+                                <button class="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md text-sm font-medium text-white bg-amber-600 hover:bg-amber-700">
+                                    <svg class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                    </svg>
+                                    New Task
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Task</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assignee</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Due Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Finalize evaluation criteria for 6 award categories
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Evaluation Committee
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Nov 15, 2025
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            In Progress
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Interview top 10 champions for success stories
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Sarah Coordinator
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Dec 1, 2025
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                            Pending
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        Coordinate media coverage for awarding ceremony
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Mark Events
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Oct 30, 2025
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+                                            Completed
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Team Tab -->
+                <div x-show="activeTab === 'team'" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center space-x-4">
+                            <img class="h-12 w-12 rounded-full" src="https://ui-avatars.com/api/?name=Dr+Fatima&background=f59e0b&color=fff" alt="">
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-gray-900">Dr. Fatima Al-Rashid</h4>
+                                <p class="text-sm text-gray-500">Committee Chairperson</p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Active
+                            </span>
+                        </div>
+                        <div class="mt-4 flex items-center text-sm text-gray-500">
+                            <svg class="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            Leading evaluation process
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center space-x-4">
+                            <img class="h-12 w-12 rounded-full" src="https://ui-avatars.com/api/?name=Mark+Events&background=f59e0b&color=fff" alt="">
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-gray-900">Mark Events</h4>
+                                <p class="text-sm text-gray-500">Event Manager</p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Active
+                            </span>
+                        </div>
+                        <div class="mt-4 flex items-center text-sm text-gray-500">
+                            <svg class="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            Managing ceremony logistics
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center space-x-4">
+                            <img class="h-12 w-12 rounded-full" src="https://ui-avatars.com/api/?name=Sarah+Coord&background=f59e0b&color=fff" alt="">
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-gray-900">Sarah Coordinator</h4>
+                                <p class="text-sm text-gray-500">Program Coordinator</p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Active
+                            </span>
+                        </div>
+                        <div class="mt-4 flex items-center text-sm text-gray-500">
+                            <svg class="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Managing nominations
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-center space-x-4">
+                            <img class="h-12 w-12 rounded-full" src="https://ui-avatars.com/api/?name=Judge+Panel&background=f59e0b&color=fff" alt="">
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-gray-900">Judge Panel</h4>
+                                <p class="text-sm text-gray-500">5 Industry Experts</p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                Evaluating
+                            </span>
+                        </div>
+                        <div class="mt-4 flex items-center text-sm text-gray-500">
+                            <svg class="flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                            </svg>
+                            Scoring nominations
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar Tab -->
+                <div x-show="activeTab === 'calendar'" class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Recognition Timeline</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-2 h-2 bg-emerald-600 rounded-full mt-2"></div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-sm font-medium text-gray-900">Nominations Open</p>
+                                    <span class="text-sm text-emerald-600">Completed</span>
+                                </div>
+                                <p class="text-sm text-gray-500">August 1 - September 30, 2025</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-2 h-2 bg-emerald-600 rounded-full mt-2"></div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-sm font-medium text-gray-900">Initial Screening</p>
+                                    <span class="text-sm text-emerald-600">Completed</span>
+                                </div>
+                                <p class="text-sm text-gray-500">October 1 - October 31, 2025</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-sm font-medium text-gray-900">Final Evaluation</p>
+                                    <span class="text-sm text-blue-600">In Progress</span>
+                                </div>
+                                <p class="text-sm text-gray-500">November 1 - November 30, 2025</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div class="flex-shrink-0 w-2 h-2 bg-gray-400 rounded-full mt-2"></div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-sm font-medium text-gray-900">Awards Ceremony</p>
+                                    <span class="text-sm text-gray-400">Upcoming</span>
+                                </div>
+                                <p class="text-sm text-gray-500">December 15, 2025</p>
+                                <p class="text-xs text-gray-400 mt-1">Manila Hotel, Grand Ballroom</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Budget Tab -->
+                <div x-show="activeTab === 'budget'" class="space-y-6">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Budget Allocation</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Prize Money</span>
+                                    <span class="text-sm text-gray-600">₱1,430,000</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-amber-600 h-2 rounded-full" style="width: 82.7%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Event & Ceremony</span>
+                                    <span class="text-sm text-gray-600">₱200,000</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-amber-600 h-2 rounded-full" style="width: 11.6%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Marketing & Promotion</span>
+                                    <span class="text-sm text-gray-600">₱50,000</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-amber-600 h-2 rounded-full" style="width: 2.9%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm font-medium text-gray-700">Administration</span>
+                                    <span class="text-sm text-gray-600">₱50,000</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-amber-600 h-2 rounded-full" style="width: 2.9%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6 pt-6 border-t border-gray-200">
+                            <div class="flex justify-between items-center">
+                                <span class="text-base font-medium text-gray-900">Total Budget Utilized</span>
+                                <div class="text-right">
+                                    <p class="text-2xl font-bold text-amber-600">₱865,000</p>
+                                    <p class="text-sm text-gray-500">50% of ₱1,730,000</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prize Distribution -->
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Prize Distribution by Category</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-700">Excellence in Production</span>
+                                <span class="text-sm font-medium">₱300,000</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-700">Export Market Leader</span>
+                                <span class="text-sm font-medium">₱350,000</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-700">Lifetime Achievement</span>
+                                <span class="text-sm font-medium">₱280,000</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-700">Innovation in Technology</span>
+                                <span class="text-sm font-medium">₱250,000</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-700">Community Impact</span>
+                                <span class="text-sm font-medium">₱200,000</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-700">Rising Star</span>
+                                <span class="text-sm font-medium">₱150,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                <!-- AI Champions Assistant -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">AI Champions Assistant</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-amber-500 pl-4">
+                            <p class="text-sm font-medium text-gray-900">Evaluation Insights</p>
+                            <p class="text-sm text-gray-600 mt-1">Based on current scoring, Export Market Leader category has the highest competition with 42 nominees for 7 slots.</p>
+                            <button class="mt-2 text-amber-600 text-sm font-medium hover:text-amber-700">
+                                View Detailed Analysis →
+                            </button>
+                        </div>
+                        <div class="border-l-4 border-blue-500 pl-4">
+                            <p class="text-sm font-medium text-gray-900">Regional Balance Alert</p>
+                            <p class="text-sm text-gray-600 mt-1">Consider increasing outreach in Visayas regions - only 12% of nominations.</p>
+                            <button class="mt-2 text-blue-600 text-sm font-medium hover:text-blue-700">
+                                Generate Outreach Plan →
+                            </button>
+                        </div>
+                        <button class="w-full mt-4 inline-flex items-center justify-center px-4 py-2 border border-amber-600 rounded-md shadow-sm text-sm font-medium text-amber-600 bg-white hover:bg-amber-50">
+                            <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                            </svg>
+                            Generate Evaluation Report
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recent Winners -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">2025 Awardees</h3>
+                        <button class="text-sm text-amber-600 hover:text-amber-700 font-medium">View all</button>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="border rounded-lg p-3">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="font-medium text-sm text-gray-900">Crescent Foods Corp.</p>
+                                    <p class="text-xs text-gray-500">Excellence in Production</p>
+                                </div>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    Gold
+                                </span>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg p-3">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="font-medium text-sm text-gray-900">Halal Tech Solutions</p>
+                                    <p class="text-xs text-gray-500">Innovation Award</p>
+                                </div>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                    Platinum
+                                </span>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg p-3">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <p class="font-medium text-sm text-gray-900">Dr. Fatima Al-Rashid</p>
+                                    <p class="text-xs text-gray-500">Lifetime Achievement</p>
+                                </div>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-cyan-100 text-cyan-800">
+                                    Special
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Script -->
+    <script>
+        // Regional Nominees Chart
+        const ctx = document.getElementById('regionalNominees')?.getContext('2d');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'polarArea',
+                data: {
+                    labels: ['NCR', 'Region III', 'Region VII', 'Region XI', 'BARMM', 'CAR', 'Others'],
+                    datasets: [{
+                        data: [52, 38, 42, 35, 28, 18, 21],
+                        backgroundColor: [
+                            'rgba(251, 191, 36, 0.8)',
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(239, 68, 68, 0.8)',
+                            'rgba(139, 92, 246, 0.8)',
+                            'rgba(6, 182, 212, 0.8)',
+                            'rgba(156, 163, 175, 0.8)'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 15,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += context.parsed + ' nominees';
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            grid: {
+                                circular: true
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HalalPortal - One-Stop-Shop Centers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-active { 
+            border-bottom-color: #6366f1;
+            color: #4f46e5;
+        }
+    </style>
+</head>
+<body class="bg-gray-50" x-data="{ activeTab: 'overview', showAIAssist: false, showAIInsights: false }">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo on the left -->
+                <div class="flex-shrink-0 flex items-center">
+                    <svg class="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="ml-2 text-xl font-semibold text-gray-900">HalalPortal</span>
+                </div>
+                
+                <!-- Navigation items and icons on the right -->
+                <div class="flex items-center">
+                    <div class="hidden sm:flex sm:space-x-8 sm:mr-8">
+                        <a href="dashboard.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Home
+                        </a>
+                        
+                        <!-- Core Activities Dropdown -->
+                        <div class="relative group">
+                            <button class="border-emerald-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                Core Activities
+                                <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="absolute left-0 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                                <div class="py-1">
+                                    <a href="activity-certification.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Halal Certification</a>
+                                    <a href="activity-marketing.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Marketing & Capacity Building</a>
+                                    <a href="activity-centers.html" class="block px-4 py-2 text-sm text-gray-700 bg-gray-50">One-Stop-Shop Centers</a>
+                                    <a href="activity-trainers.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Trainers Training</a>
+                                    <a href="activity-database.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Halal Database</a>
+                                    <a href="activity-champions.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Champions Recognition</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="msme-database.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            MSME Database
+                        </a>
+                        
+                        <!-- HPMO Team Dropdown -->
+                        <div class="relative group">
+                            <button class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                HPMO Team
+                                <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                                <div class="py-1">
+                                    <a href="staff.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Management</a>
+                                    <a href="performance-dashboard.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Performance Management</a>
+                                    <a href="tasks.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Task Management</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="calendar.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Calendar
+                        </a>
+                    </div>
+                    
+                    <!-- Icons -->
+                    <div class="flex items-center space-x-4">
+                    <!-- AI Insights Button -->
+                    <button @click="showAIInsights = !showAIInsights" class="relative p-2 text-gray-400 hover:text-gray-500 animate-pulse-slow">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <span class="absolute -top-1 -right-1 h-3 w-3 bg-emerald-500 rounded-full"></span>
+                    </button>
+                    
+                    <!-- Notifications -->
+                    <div class="relative">
+                        <button class="p-2 text-gray-400 hover:text-gray-500">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                            <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 transform translate-x-1/2 -translate-y-1/2"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- Account Dropdown -->
+                    <div class="relative" x-data="{ showAccount: false }">
+                        <button @click="showAccount = !showAccount" class="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-gray-100">
+                            <img class="h-8 w-8 rounded-full" src="https://ui-avatars.com/api/?name=Admin&background=10b981&color=fff" alt="Profile">
+                            <svg class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        
+                        <div x-show="showAccount" @click.away="showAccount = false"
+                             x-transition
+                             class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                            <div class="py-1">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                                <div class="border-t border-gray-100"></div>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- AI Insights Panel -->
+    <div x-show="showAIInsights" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 transform translate-y-4"
+         x-transition:enter-end="opacity-100 transform translate-y-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 transform translate-y-0"
+         x-transition:leave-end="opacity-0 transform translate-y-4"
+         class="fixed bottom-4 right-4 w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
+        <div class="p-4 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-semibold text-gray-900">AI Insights</h3>
+                <button @click="showAIInsights = false" class="text-gray-400 hover:text-gray-500">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="p-4 max-h-96 overflow-y-auto">
+            <div class="space-y-3">
+                <div class="p-3 bg-red-50 rounded-lg">
+                    <p class="text-sm font-medium text-red-900">🚨 Critical Alert</p>
+                    <p class="text-xs text-red-700 mt-1">Current pace will achieve only 304 MSMEs (80% of target). Recommend accelerating certification in Regions I, III, and NCR.</p>
+                    <button class="text-xs text-red-600 hover:text-red-700 font-medium mt-2">View Solution →</button>
+                </div>
+                <div class="p-3 bg-yellow-50 rounded-lg">
+                    <p class="text-sm font-medium text-yellow-900">⚡ Performance Insight</p>
+                    <p class="text-xs text-yellow-700 mt-1">Team productivity peaks Tuesday-Thursday. Schedule critical reviews during these days.</p>
+                </div>
+                <div class="p-3 bg-emerald-50 rounded-lg">
+                    <p class="text-sm font-medium text-emerald-900">✨ Opportunity</p>
+                    <p class="text-xs text-emerald-700 mt-1">Region III partnership model showing 40% efficiency gain. Replicate across other regions.</p>
+                    <button class="text-xs text-emerald-600 hover:text-emerald-700 font-medium mt-2">Apply Model →</button>
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-t">
+                <button class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700">
+                    <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                    Generate Full Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Assistant Panel -->
+    <div x-show="showAIAssist" x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
+         x-transition:leave="transition ease-in duration-300"
+         x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full"
+         class="fixed right-0 top-16 h-full w-96 bg-white shadow-xl border-l border-gray-200 z-50 overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-lg font-semibold text-gray-900">AI Centers Assistant</h3>
+                <button @click="showAIAssist = false" class="text-gray-400 hover:text-gray-500">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-indigo-50 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <svg class="h-5 w-5 text-indigo-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <div class="ml-3">
+                            <h4 class="text-sm font-medium text-indigo-900">Location Optimization</h4>
+                            <p class="text-sm text-indigo-700 mt-1">Based on MSME density analysis, prioritize establishing centers in Davao, Cebu, and Zamboanga for maximum impact.</p>
+                            <button class="mt-2 text-sm font-medium text-indigo-600 hover:text-indigo-700">
+                                View Detailed Analysis →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-50 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <svg class="h-5 w-5 text-yellow-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        <div class="ml-3">
+                            <h4 class="text-sm font-medium text-yellow-900">Staffing Alert</h4>
+                            <p class="text-sm text-yellow-700 mt-1">5 centers operating with minimal staff. Consider immediate recruitment for Manila North and Iloilo centers.</p>
+                            <button class="mt-2 text-sm font-medium text-yellow-600 hover:text-yellow-700">
+                                Generate Staffing Plan →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t pt-4">
+                    <h4 class="text-sm font-medium text-gray-900 mb-3">Quick Actions</h4>
+                    <div class="space-y-2">
+                        <button class="w-full text-left px-3 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-lg flex items-center justify-between">
+                            <span>Generate Center Report</span>
+                            <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                        <button class="w-full text-left px-3 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-lg flex items-center justify-between">
+                            <span>Create MOA Template</span>
+                            <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                        <button class="w-full text-left px-3 py-2 text-sm bg-gray-50 hover:bg-gray-100 rounded-lg flex items-center justify-between">
+                            <span>Analyze Service Gaps</span>
+                            <svg class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">One-Stop-Shop Centers</h1>
+                    <p class="mt-2 text-gray-600">Activity 3 - Establishing 24 Halal service centers nationwide for integrated MSME support</p>
+                </div>
+                <div class="flex space-x-3">
+                    <button class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                        </svg>
+                        View Map
+                    </button>
+                    <button class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                        <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        Add Center
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Tabs -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="border-b border-gray-200">
+                <nav class="-mb-px flex space-x-8 px-6" aria-label="Tabs">
+                    <button @click="activeTab = 'overview'" 
+                            :class="activeTab === 'overview' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        Overview
+                    </button>
+                    <button @click="activeTab = 'projects'" 
+                            :class="activeTab === 'projects' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        Projects (3)
+                    </button>
+                    <button @click="activeTab = 'tasks'" 
+                            :class="activeTab === 'tasks' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        Tasks (38)
+                    </button>
+                    <button @click="activeTab = 'team'" 
+                            :class="activeTab === 'team' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        Team (12)
+                    </button>
+                    <button @click="activeTab = 'calendar'" 
+                            :class="activeTab === 'calendar' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        Calendar
+                    </button>
+                    <button @click="activeTab = 'budget'" 
+                            :class="activeTab === 'budget' ? 'tab-active' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        Budget (₱4.8M)
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="p-6">
+                <!-- Overview Tab -->
+                <div x-show="activeTab === 'overview'" class="space-y-6">
+                    <!-- KPI Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Total Budget</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1">₱4.8M</p>
+                                </div>
+                                <div class="p-3 bg-indigo-100 rounded-lg">
+                                    <svg class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center text-sm">
+                                    <span class="text-indigo-600 font-medium">₱2.1M</span>
+                                    <span class="text-gray-500 ml-2">utilized (44%)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Centers Established</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1">15</p>
+                                </div>
+                                <div class="p-3 bg-green-100 rounded-lg">
+                                    <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center text-sm">
+                                    <span class="text-green-600 font-medium">63%</span>
+                                    <span class="text-gray-500 ml-2">of 24 target</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">MSMEs Served</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1">892</p>
+                                </div>
+                                <div class="p-3 bg-blue-100 rounded-lg">
+                                    <svg class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center text-sm">
+                                    <span class="text-blue-600 font-medium">+128</span>
+                                    <span class="text-gray-500 ml-2">this month</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-600">Service Rating</p>
+                                    <p class="text-2xl font-bold text-gray-900 mt-1">4.6/5</p>
+                                </div>
+                                <div class="p-3 bg-yellow-100 rounded-lg">
+                                    <svg class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex items-center text-sm">
+                                    <span class="text-yellow-600 font-medium">92%</span>
+                                    <span class="text-gray-500 ml-2">satisfaction</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Centers Map/Status -->
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Regional Distribution</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h4 class="text-sm font-medium text-gray-700 mb-3">Operational Centers (15)</h4>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">NCR - Manila (2 centers)</span>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            Operational
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">Region III - Pampanga</span>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            Operational
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">Region VII - Cebu (2 centers)</span>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            Operational
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">Region XI - Davao (3 centers)</span>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            Operational
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">BARMM - Cotabato (2 centers)</span>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                            Operational
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-medium text-gray-700 mb-3">Under Construction (9)</h4>
+                                <div class="space-y-2">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">Region I - Ilocos Norte</span>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            75% Complete
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">Region IV-A - Batangas</span>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            60% Complete
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">Region VI - Iloilo</span>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">
+                                            40% Complete
+                                        </span>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-sm text-gray-600">Region IX - Zamboanga</span>
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            Planning
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Services Offered Chart -->
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Services Utilization</h3>
+                        <div style="position: relative; height: 300px;">
+                            <canvas id="servicesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects Tab -->
+                <div x-show="activeTab === 'projects'" class="space-y-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Projects within One-Stop-Shop Centers</h3>
+                        <button class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                            <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                            New Project
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-4">
+                        <!-- Project 1 -->
+                        <div class="bg-gray-50 rounded-lg p-6 hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h4 class="text-lg font-medium text-gray-900">Center Infrastructure Development</h4>
+                                    <p class="text-sm text-gray-600 mt-1">Construction and setup of physical centers in strategic locations</p>
+                                    <div class="mt-4 flex items-center space-x-4 text-sm">
+                                        <span class="text-gray-500">Budget: <span class="font-medium text-gray-900">₱2.5M</span></span>
+                                        <span class="text-gray-500">Progress: <span class="font-medium text-indigo-600">63%</span></span>
+                                        <span class="text-gray-500">Tasks: <span class="font-medium text-gray-900">18/24</span></span>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    On Track
+                                </span>
+                            </div>
+                            <div class="mt-4">
+                                <div class="flex -space-x-2">
+                                    <img class="h-8 w-8 rounded-full border-2 border-white" src="https://ui-avatars.com/api/?name=RC&background=6366f1&color=fff" alt="">
+                                    <img class="h-8 w-8 rounded-full border-2 border-white" src="https://ui-avatars.com/api/?name=ML&background=10b981&color=fff" alt="">
+                                    <img class="h-8 w-8 rounded-full border-2 border-white" src="https://ui-avatars.com/api/?name=JP&background=f59e0b&color=fff" alt="">
+                                    <span class="h-8 w-8 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-600">+4</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 2 -->
+                        <div class="bg-gray-50 rounded-lg p-6 hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h4 class="text-lg font-medium text-gray-900">Service Integration Platform</h4>
+                                    <p class="text-sm text-gray-600 mt-1">Digital platform to connect all centers and provide online services</p>
+                                    <div class="mt-4 flex items-center space-x-4 text-sm">
+                                        <span class="text-gray-500">Budget: <span class="font-medium text-gray-900">₱1.2M</span></span>
+                                        <span class="text-gray-500">Progress: <span class="font-medium text-indigo-600">45%</span></span>
+                                        <span class="text-gray-500">Tasks: <span class="font-medium text-gray-900">9/20</span></span>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    At Risk
+                                </span>
+                            </div>
+                            <div class="mt-4">
+                                <div class="bg-red-50 rounded-md p-3">
+                                    <p class="text-sm text-red-800">
+                                        <svg class="inline h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                        </svg>
+                                        Technical integration delays. Backend API development behind schedule.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 3 -->
+                        <div class="bg-gray-50 rounded-lg p-6 hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h4 class="text-lg font-medium text-gray-900">Staff Training & Deployment</h4>
+                                    <p class="text-sm text-gray-600 mt-1">Recruitment and training of center personnel across all regions</p>
+                                    <div class="mt-4 flex items-center space-x-4 text-sm">
+                                        <span class="text-gray-500">Budget: <span class="font-medium text-gray-900">₱1.1M</span></span>
+                                        <span class="text-gray-500">Progress: <span class="font-medium text-indigo-600">70%</span></span>
+                                        <span class="text-gray-500">Tasks: <span class="font-medium text-gray-900">11/14</span></span>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    On Track
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Project 4 -->
+                        <div class="bg-gray-50 rounded-lg p-6 hover:shadow-md transition-shadow">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h4 class="text-lg font-medium text-gray-900">Online Support System Development</h4>
+                                    <p class="text-sm text-gray-600 mt-1">Creating digital infrastructure</p>
+                                    <div class="mt-4 flex items-center space-x-4 text-sm">
+                                        <span class="text-gray-500">Budget: <span class="font-medium text-gray-900">₱800K</span></span>
+                                        <span class="text-gray-500">Progress: <span class="font-medium text-indigo-600">25%</span></span>
+                                        <span class="text-gray-500">Tasks: <span class="font-medium text-gray-900">3/10</span></span>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    Planning
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tasks Tab -->
+                <div x-show="activeTab === 'tasks'" class="space-y-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">One-Stop-Shop Centers Tasks</h3>
+                        <div class="flex items-center space-x-3">
+                            <select class="text-sm border-gray-300 rounded-md">
+                                <option>All Projects</option>
+                                <option>Center Infrastructure</option>
+                                <option>Service Integration</option>
+                                <option>Staff Training</option>
+                            </select>
+                            <button class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                                <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                </svg>
+                                Add Task
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="space-y-3">
+                            <!-- High Priority Tasks -->
+                            <div class="bg-white rounded-lg border border-red-200 p-4">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex items-start space-x-3">
+                                        <input type="checkbox" class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                        <div>
+                                            <p class="font-medium text-gray-900">Complete Iloilo center construction permit</p>
+                                            <p class="text-sm text-gray-500 mt-1">Center Infrastructure • Due Nov 20</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                                            High Priority
+                                        </span>
+                                        <img class="h-6 w-6 rounded-full" src="https://ui-avatars.com/api/?name=RC&background=ef4444&color=fff" alt="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Medium Priority Tasks -->
+                            <div class="bg-white rounded-lg border border-gray-200 p-4">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex items-start space-x-3">
+                                        <input type="checkbox" class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                        <div>
+                                            <p class="font-medium text-gray-900">Deploy service integration API to Cebu centers</p>
+                                            <p class="text-sm text-gray-500 mt-1">Service Integration • Due Nov 22</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                                            Medium
+                                        </span>
+                                        <img class="h-6 w-6 rounded-full" src="https://ui-avatars.com/api/?name=ML&background=f59e0b&color=fff" alt="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg border border-gray-200 p-4">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex items-start space-x-3">
+                                        <input type="checkbox" checked class="mt-1 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                        <div>
+                                            <p class="font-medium text-gray-900 line-through text-gray-400">Complete staff training for Davao centers</p>
+                                            <p class="text-sm text-gray-500 mt-1">Staff Training • Completed Nov 18</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                                            Done
+                                        </span>
+                                        <img class="h-6 w-6 rounded-full" src="https://ui-avatars.com/api/?name=JP&background=10b981&color=fff" alt="">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Show more tasks indicator -->
+                            <div class="text-center py-2">
+                                <button class="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
+                                    View all 38 tasks →
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Tab -->
+                <div x-show="activeTab === 'team'" class="space-y-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">One-Stop-Shop Centers Team</h3>
+                        <button class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                            <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                            </svg>
+                            Add Member
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Activity Lead -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center space-x-3">
+                                <img class="h-12 w-12 rounded-full" src="https://ui-avatars.com/api/?name=Roberto+Cruz&background=6366f1&color=fff" alt="">
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-900">Roberto Cruz</p>
+                                    <p class="text-sm text-gray-500">Activity Lead - Centers</p>
+                                </div>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                    Lead
+                                </span>
+                            </div>
+                            <div class="mt-3 text-sm">
+                                <p class="text-gray-600">Current Tasks: <span class="font-medium text-gray-900">6</span></p>
+                                <p class="text-gray-600">Performance: <span class="font-medium text-green-600">89%</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Infrastructure Manager -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center space-x-3">
+                                <img class="h-12 w-12 rounded-full" src="https://ui-avatars.com/api/?name=Michael+Lee&background=10b981&color=fff" alt="">
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-900">Michael Lee</p>
+                                    <p class="text-sm text-gray-500">Infrastructure Manager</p>
+                                </div>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    Manager
+                                </span>
+                            </div>
+                            <div class="mt-3 text-sm">
+                                <p class="text-gray-600">Current Tasks: <span class="font-medium text-gray-900">10</span></p>
+                                <p class="text-gray-600">Performance: <span class="font-medium text-green-600">91%</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Service Coordinator -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center space-x-3">
+                                <img class="h-12 w-12 rounded-full" src="https://ui-avatars.com/api/?name=Jennifer+Perez&background=f59e0b&color=fff" alt="">
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-900">Jennifer Perez</p>
+                                    <p class="text-sm text-gray-500">Service Integration Lead</p>
+                                </div>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    Lead
+                                </span>
+                            </div>
+                            <div class="mt-3 text-sm">
+                                <p class="text-gray-600">Current Tasks: <span class="font-medium text-gray-900">8</span></p>
+                                <p class="text-gray-600">Performance: <span class="font-medium text-yellow-600">82%</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Training Manager -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center space-x-3">
+                                <img class="h-12 w-12 rounded-full" src="https://ui-avatars.com/api/?name=Angela+Santos&background=a855f7&color=fff" alt="">
+                                <div class="flex-1">
+                                    <p class="font-medium text-gray-900">Angela Santos</p>
+                                    <p class="text-sm text-gray-500">Training Manager</p>
+                                </div>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                    Manager
+                                </span>
+                            </div>
+                            <div class="mt-3 text-sm">
+                                <p class="text-gray-600">Current Tasks: <span class="font-medium text-gray-900">7</span></p>
+                                <p class="text-gray-600">Performance: <span class="font-medium text-green-600">87%</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Regional Coordinators -->
+                    <div class="mt-6">
+                        <h4 class="text-sm font-medium text-gray-900 mb-3">Regional Center Coordinators (8 members)</h4>
+                        <div class="flex -space-x-2">
+                            <img class="h-8 w-8 rounded-full border-2 border-white" src="https://ui-avatars.com/api/?name=RM&background=6366f1&color=fff" alt="">
+                            <img class="h-8 w-8 rounded-full border-2 border-white" src="https://ui-avatars.com/api/?name=DL&background=ec4899&color=fff" alt="">
+                            <img class="h-8 w-8 rounded-full border-2 border-white" src="https://ui-avatars.com/api/?name=KT&background=14b8a6&color=fff" alt="">
+                            <img class="h-8 w-8 rounded-full border-2 border-white" src="https://ui-avatars.com/api/?name=JR&background=f59e0b&color=fff" alt="">
+                            <span class="h-8 w-8 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center text-xs font-medium text-gray-600">+4</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar Tab -->
+                <div x-show="activeTab === 'calendar'" class="space-y-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">Centers Development Calendar</h3>
+                        <div class="flex items-center space-x-3">
+                            <button class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                                </svg>
+                                Export
+                            </button>
+                            <button class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                                <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                </svg>
+                                Add Event
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Milestones -->
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h4 class="font-medium text-gray-900 mb-4">Upcoming Milestones - November 2025</h4>
+                        <div class="space-y-3">
+                            <div class="bg-white rounded-lg border border-gray-200 p-4">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-medium text-gray-900">Iloilo Center Construction Completion</p>
+                                        <p class="text-sm text-gray-500">Nov 25, 2025 • Infrastructure Milestone</p>
+                                        <p class="text-sm text-gray-600 mt-1">📍 Region VI • Final inspection scheduled</p>
+                                    </div>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        6 days
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg border border-gray-200 p-4">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-medium text-gray-900">Service Platform Beta Launch</p>
+                                        <p class="text-sm text-gray-500">Nov 28, 2025 • 10:00 AM</p>
+                                        <p class="text-sm text-gray-600 mt-1">🌐 Online • Testing with 5 operational centers</p>
+                                    </div>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        9 days
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg border border-gray-200 p-4">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-medium text-gray-900">Zamboanga Center Groundbreaking</p>
+                                        <p class="text-sm text-gray-500">Dec 2, 2025 • 9:00 AM</p>
+                                        <p class="text-sm text-gray-600 mt-1">📍 Region IX • Local officials attending</p>
+                                    </div>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        13 days
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-lg border border-gray-200 p-4">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <p class="font-medium text-gray-900">Regional Staff Training Workshop</p>
+                                        <p class="text-sm text-gray-500">Dec 5-6, 2025 • Full day</p>
+                                        <p class="text-sm text-gray-600 mt-1">📍 Manila • All center managers required</p>
+                                    </div>
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                        16 days
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Budget Tab -->
+                <div x-show="activeTab === 'budget'" class="space-y-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">One-Stop-Shop Centers Budget</h3>
+                        <button class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            <svg class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Download Report
+                        </button>
+                    </div>
+
+                    <!-- Budget Overview -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-indigo-50 rounded-lg p-4">
+                            <p class="text-sm font-medium text-indigo-900">Total Budget</p>
+                            <p class="text-2xl font-bold text-indigo-900 mt-1">₱4,800,000</p>
+                            <p class="text-sm text-indigo-700 mt-2">Activity 3 Allocation</p>
+                        </div>
+                        <div class="bg-blue-50 rounded-lg p-4">
+                            <p class="text-sm font-medium text-blue-900">Utilized</p>
+                            <p class="text-2xl font-bold text-blue-900 mt-1">₱2,100,000</p>
+                            <p class="text-sm text-blue-700 mt-2">44% of total budget</p>
+                        </div>
+                        <div class="bg-green-50 rounded-lg p-4">
+                            <p class="text-sm font-medium text-green-900">Remaining</p>
+                            <p class="text-2xl font-bold text-green-900 mt-1">₱2,700,000</p>
+                            <p class="text-sm text-green-700 mt-2">Available for allocation</p>
+                        </div>
+                    </div>
+
+                    <!-- Budget by Project -->
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h4 class="font-medium text-gray-900 mb-4">Budget Allocation by Project</h4>
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="font-medium text-gray-700">Center Infrastructure Development</span>
+                                    <span class="text-gray-600">₱2.5M (52%)</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-indigo-600 h-2 rounded-full" style="width: 63%"></div>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">₱1.575M spent of ₱2.5M allocated</p>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="font-medium text-gray-700">Service Integration Platform</span>
+                                    <span class="text-gray-600">₱1.2M (25%)</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 45%"></div>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">₱540K spent of ₱1.2M allocated</p>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="font-medium text-gray-700">Staff Training & Deployment</span>
+                                    <span class="text-gray-600">₱1.1M (23%)</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-green-600 h-2 rounded-full" style="width: 70%"></div>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">₱770K spent of ₱1.1M allocated</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cost Breakdown by Region -->
+                    <div class="bg-gray-50 rounded-lg p-6">
+                        <h4 class="font-medium text-gray-900 mb-4">Regional Cost Breakdown</h4>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center py-2 border-b border-gray-200">
+                                <span class="text-sm text-gray-700">NCR (2 centers)</span>
+                                <span class="text-sm font-medium text-gray-900">₱420,000</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-200">
+                                <span class="text-sm text-gray-700">Region XI - Davao (3 centers)</span>
+                                <span class="text-sm font-medium text-gray-900">₱630,000</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-200">
+                                <span class="text-sm text-gray-700">Region VII - Cebu (2 centers)</span>
+                                <span class="text-sm font-medium text-gray-900">₱380,000</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-200">
+                                <span class="text-sm text-gray-700">BARMM - Cotabato (2 centers)</span>
+                                <span class="text-sm font-medium text-gray-900">₱450,000</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-sm text-gray-700">Other Regions (6 centers)</span>
+                                <span class="text-sm font-medium text-gray-900">₱220,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Chart Script -->
+    <script>
+        // Services Utilization Chart
+        const ctx = document.getElementById('servicesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Certification Assistance', 'Business Registration', 'Training Enrollment', 'Export Documentation', 'Financing Guidance', 'Technical Support'],
+                datasets: [{
+                    label: 'Services Utilized',
+                    data: [324, 285, 198, 156, 142, 87],
+                    backgroundColor: [
+                        'rgba(99, 102, 241, 0.8)',
+                        'rgba(59, 130, 246, 0.8)',
+                        'rgba(34, 197, 94, 0.8)',
+                        'rgba(251, 146, 60, 0.8)',
+                        'rgba(168, 85, 247, 0.8)',
+                        'rgba(236, 72, 153, 0.8)'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Requests'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar Management - HalalPortal PH</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo on the left -->
+                <div class="flex-shrink-0 flex items-center">
+                    <svg class="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="ml-2 text-xl font-semibold text-gray-900">HalalPortal</span>
+                </div>
+                
+                <!-- Navigation items and icons on the right -->
+                <div class="flex items-center">
+                    <div class="hidden sm:flex sm:space-x-8 sm:mr-8">
+                        <a href="dashboard.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Home
+                        </a>
+                        
+                        <!-- Core Activities Dropdown -->
+                        <div class="relative group">
+                            <button class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                Core Activities
+                                <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="absolute left-0 mt-2 w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                                <div class="py-1">
+                                    <a href="activity-certification.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Halal Certification</a>
+                                    <a href="activity-marketing.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Marketing & Capacity Building</a>
+                                    <a href="activity-centers.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">One-Stop-Shop Centers</a>
+                                    <a href="activity-trainers.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Trainers Training</a>
+                                    <a href="activity-database.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Halal Database</a>
+                                    <a href="activity-champions.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Champions Recognition</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="msme-database.html" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            MSME Database
+                        </a>
+                        
+                        <!-- HPMO Team Dropdown -->
+                        <div class="relative group">
+                            <button class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                                HPMO Team
+                                <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                            <div class="absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                                <div class="py-1">
+                                    <a href="staff.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Staff Management</a>
+                                    <a href="performance-dashboard.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Performance Management</a>
+                                    <a href="tasks.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Task Management</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="calendar.html" class="border-emerald-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Calendar
+                        </a>
+                    </div>
+                    
+                    <!-- Icons -->
+                    <div class="flex items-center space-x-4">
+                    <!-- AI Insights Button -->
+                    <button @click="showAIAssist = !showAIAssist" class="relative p-2 text-gray-400 hover:text-gray-500 animate-pulse-slow">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                        <span class="absolute -top-1 -right-1 h-3 w-3 bg-emerald-500 rounded-full"></span>
+                    </button>
+                    
+                    <!-- Notifications -->
+                    <div class="relative">
+                        <button class="p-2 text-gray-400 hover:text-gray-500">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                            <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 transform translate-x-1/2 -translate-y-1/2"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- Account Dropdown -->
+                    <div class="relative" x-data="{ showAccount: false }">
+                        <button @click="showAccount = !showAccount" class="flex items-center space-x-2 p-1.5 rounded-lg hover:bg-gray-100">
+                            <img class="h-8 w-8 rounded-full" src="https://ui-avatars.com/api/?name=Admin&background=10b981&color=fff" alt="Profile">
+                            <svg class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        
+                        <div x-show="showAccount" @click.away="showAccount = false"
+                             x-transition
+                             class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                            <div class="py-1">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
+                                <div class="border-t border-gray-100"></div>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Calendar Management</h1>
+                <p class="text-gray-600">Schedule events, trainings, and track important milestones</p>
+            </div>
+            <div class="flex space-x-3">
+                <button class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50">
+                    <i class="fas fa-filter mr-2"></i>Filter
+                </button>
+                <button class="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700">
+                    <i class="fas fa-plus mr-2"></i>New Event
+                </button>
+            </div>
+        </div>
+
+        <!-- Calendar Controls and View -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- Left Sidebar -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Mini Calendar -->
+                <div class="bg-white rounded-lg shadow-sm p-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-gray-800">June 2025</h3>
+                        <div class="flex space-x-1">
+                            <button class="p-1 hover:bg-gray-100 rounded">
+                                <i class="fas fa-chevron-left text-xs text-gray-600"></i>
+                            </button>
+                            <button class="p-1 hover:bg-gray-100 rounded">
+                                <i class="fas fa-chevron-right text-xs text-gray-600"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1 text-xs">
+                        <div class="text-center text-gray-500 py-1">Su</div>
+                        <div class="text-center text-gray-500 py-1">Mo</div>
+                        <div class="text-center text-gray-500 py-1">Tu</div>
+                        <div class="text-center text-gray-500 py-1">We</div>
+                        <div class="text-center text-gray-500 py-1">Th</div>
+                        <div class="text-center text-gray-500 py-1">Fr</div>
+                        <div class="text-center text-gray-500 py-1">Sa</div>
+                        <!-- Calendar Days -->
+                        <!-- Week 1 -->
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">1</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer bg-emerald-100 text-emerald-700 font-semibold">2</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">3</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">4</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">5</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">6</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">7</div>
+                        <!-- Week 2 -->
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">8</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">9</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">10</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">11</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">12</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">13</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">14</div>
+                        <!-- Week 3 -->
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">15</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">16</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">17</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">18</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">19</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">20</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">21</div>
+                        <!-- Week 4 -->
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">22</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">23</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">24</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">25</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">26</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">27</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">28</div>
+                        <!-- Week 5 -->
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">29</div>
+                        <div class="text-center py-1 hover:bg-gray-100 rounded cursor-pointer">30</div>
+                    </div>
+                </div>
+
+                <!-- Event Types -->
+                <div class="bg-white rounded-lg shadow-sm p-4">
+                    <h3 class="font-semibold text-gray-800 mb-4">Event Types</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-emerald-600" checked>
+                            <span class="ml-2 text-sm text-gray-700">Trainings</span>
+                            <span class="ml-auto text-xs text-gray-500">12</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-emerald-600" checked>
+                            <span class="ml-2 text-sm text-gray-700">Milestones</span>
+                            <span class="ml-auto text-xs text-gray-500">8</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-emerald-600" checked>
+                            <span class="ml-2 text-sm text-gray-700">Meetings</span>
+                            <span class="ml-auto text-xs text-gray-500">24</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-emerald-600" checked>
+                            <span class="ml-2 text-sm text-gray-700">Deadlines</span>
+                            <span class="ml-auto text-xs text-gray-500">15</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-emerald-600">
+                            <span class="ml-2 text-sm text-gray-700">Audits</span>
+                            <span class="ml-auto text-xs text-gray-500">5</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Upcoming Events -->
+                <div class="bg-white rounded-lg shadow-sm p-4">
+                    <h3 class="font-semibold text-gray-800 mb-4">Today's Schedule</h3>
+                    <div class="space-y-3">
+                        <div class="border-l-4 border-emerald-600 pl-3">
+                            <p class="text-sm font-medium text-gray-800">Program Launch Kickoff</p>
+                            <p class="text-xs text-gray-500">9:00 AM - 10:30 AM</p>
+                        </div>
+                        <div class="border-l-4 border-blue-600 pl-3">
+                            <p class="text-sm font-medium text-gray-800">HPMO Team Orientation</p>
+                            <p class="text-xs text-gray-500">2:00 PM - 4:00 PM</p>
+                        </div>
+                        <div class="border-l-4 border-purple-600 pl-3">
+                            <p class="text-sm font-medium text-gray-800">Regional Focal Briefing</p>
+                            <p class="text-xs text-gray-500">4:30 PM - 5:30 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Calendar -->
+            <div class="lg:col-span-3">
+                <div class="bg-white rounded-lg shadow-sm">
+                    <!-- Calendar Header -->
+                    <div class="p-4 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <button class="p-2 hover:bg-gray-100 rounded-lg">
+                                    <i class="fas fa-chevron-left text-gray-600"></i>
+                                </button>
+                                <h2 class="text-xl font-semibold text-gray-800">June 2025</h2>
+                                <button class="p-2 hover:bg-gray-100 rounded-lg">
+                                    <i class="fas fa-chevron-right text-gray-600"></i>
+                                </button>
+                                <button class="px-3 py-1 text-sm text-emerald-600 hover:bg-emerald-50 rounded">Today</button>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded">Month</button>
+                                <button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded">Week</button>
+                                <button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded">Day</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calendar Grid -->
+                    <div class="p-4">
+                        <!-- Days of Week -->
+                        <div class="grid grid-cols-7 gap-0 mb-2">
+                            <div class="text-center text-sm font-medium text-gray-600 py-2">Sunday</div>
+                            <div class="text-center text-sm font-medium text-gray-600 py-2">Monday</div>
+                            <div class="text-center text-sm font-medium text-gray-600 py-2">Tuesday</div>
+                            <div class="text-center text-sm font-medium text-gray-600 py-2">Wednesday</div>
+                            <div class="text-center text-sm font-medium text-gray-600 py-2">Thursday</div>
+                            <div class="text-center text-sm font-medium text-gray-600 py-2">Friday</div>
+                            <div class="text-center text-sm font-medium text-gray-600 py-2">Saturday</div>
+                        </div>
+
+                        <!-- Calendar Days Grid -->
+                        <div class="grid grid-cols-7 gap-0 border-t border-l">
+                            <!-- Week 1 (June starts on Sunday) -->
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">1</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-emerald-600 text-white px-1 py-0.5 rounded truncate">Program Launch</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50 bg-emerald-50">
+                                <div class="text-sm font-medium text-emerald-700">2</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-emerald-100 text-emerald-700 px-1 py-0.5 rounded truncate">HPMO Orientation</div>
+                                    <div class="text-xs bg-blue-100 text-blue-700 px-1 py-0.5 rounded truncate">System Setup</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">3</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-purple-100 text-purple-700 px-1 py-0.5 rounded truncate">Regional Briefing</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">4</div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">5</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-orange-100 text-orange-700 px-1 py-0.5 rounded truncate">NCR Training</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">6</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-emerald-100 text-emerald-700 px-1 py-0.5 rounded truncate">Weekly Review</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">7</div>
+                            </div>
+
+                            <!-- Week 2 -->
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">8</div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">9</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-blue-100 text-blue-700 px-1 py-0.5 rounded truncate">MSME Portal Launch</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">10</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-purple-100 text-purple-700 px-1 py-0.5 rounded truncate">Region I Training</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">11</div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">12</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-blue-100 text-blue-700 px-1 py-0.5 rounded truncate">Independence Day</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">13</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-emerald-100 text-emerald-700 px-1 py-0.5 rounded truncate">Staff Meeting</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">14</div>
+                            </div>
+
+                            <!-- Week 3 -->
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">15</div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">16</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-green-100 text-green-700 px-1 py-0.5 rounded truncate">Milestone: Week 2</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">17</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-purple-100 text-purple-700 px-1 py-0.5 rounded truncate">Region III Training</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">18</div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">19</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-red-100 text-red-700 px-1 py-0.5 rounded truncate">Budget Review</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">20</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-emerald-100 text-emerald-700 px-1 py-0.5 rounded truncate">Board Meeting</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">21</div>
+                            </div>
+
+                            <!-- Week 4 -->
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">22</div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">23</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-purple-100 text-purple-700 px-1 py-0.5 rounded truncate">Mindanao Training</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">24</div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">25</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-orange-100 text-orange-700 px-1 py-0.5 rounded truncate">Progress Report</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">26</div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">27</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-emerald-100 text-emerald-700 px-1 py-0.5 rounded truncate">Monthly Review</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">28</div>
+                            </div>
+
+                            <!-- Week 5 -->
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">29</div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 hover:bg-gray-50">
+                                <div class="text-sm font-medium">30</div>
+                                <div class="mt-1 space-y-1">
+                                    <div class="text-xs bg-green-100 text-green-700 px-1 py-0.5 rounded truncate">Month-End Close</div>
+                                </div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 bg-gray-50">
+                                <div class="text-sm text-gray-400"></div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 bg-gray-50">
+                                <div class="text-sm text-gray-400"></div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 bg-gray-50">
+                                <div class="text-sm text-gray-400"></div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 bg-gray-50">
+                                <div class="text-sm text-gray-400"></div>
+                            </div>
+                            <div class="border-r border-b p-2 h-24 bg-gray-50">
+                                <div class="text-sm text-gray-400"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resource Conflicts -->
+                <div class="mt-6 bg-white rounded-lg shadow-sm p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Resource Conflicts & Availability</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-exclamation-triangle text-red-600 mr-3"></i>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">Conference Room A - Double Booked</p>
+                                    <p class="text-xs text-gray-600">June 9, 2:00 PM - MSME Portal Launch & IT Setup</p>
+                                </div>
+                            </div>
+                            <button class="text-sm text-red-600 hover:text-red-700 font-medium">Resolve</button>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-info-circle text-yellow-600 mr-3"></i>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">Dimnatang Radia - Scheduling Conflict</p>
+                                    <p class="text-xs text-gray-600">June 20, Board Meeting overlaps with Regional Visit</p>
+                                </div>
+                            </div>
+                            <button class="text-sm text-yellow-600 hover:text-yellow-700 font-medium">Review</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+            <div class="bg-white rounded-lg shadow-sm p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">Total Events</p>
+                        <p class="text-2xl font-bold text-gray-800">64</p>
+                    </div>
+                    <div class="bg-emerald-100 p-2 rounded-lg">
+                        <i class="fas fa-calendar text-emerald-600"></i>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">This month</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">Trainings</p>
+                        <p class="text-2xl font-bold text-blue-600">12</p>
+                    </div>
+                    <div class="bg-blue-100 p-2 rounded-lg">
+                        <i class="fas fa-chalkboard-teacher text-blue-600"></i>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">Scheduled</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">Milestones</p>
+                        <p class="text-2xl font-bold text-green-600">8</p>
+                    </div>
+                    <div class="bg-green-100 p-2 rounded-lg">
+                        <i class="fas fa-flag text-green-600"></i>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">Coming up</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-sm p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-gray-600">Conflicts</p>
+                        <p class="text-2xl font-bold text-red-600">3</p>
+                    </div>
+                    <div class="bg-red-100 p-2 rounded-lg">
+                        <i class="fas fa-exclamation text-red-600"></i>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">Need resolution</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
